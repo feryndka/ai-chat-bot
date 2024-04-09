@@ -6,7 +6,7 @@ import { HoverCardTitle } from "./HoverCardTitle";
 
 const HomeLayout = ({ children }) => {
   return (
-    <div className="max-w-[90%] mx-auto h-[90vh]">
+    <div className="max-w-[90%] mx-auto h-fit mb-10">
       <div className="flex py-3 justify-between">
         <div className="flex gap-3 items-center">
           <div className="h-6 w-6 bg-red-500 rounded-full"></div>
@@ -17,9 +17,9 @@ const HomeLayout = ({ children }) => {
           <Toggle />
         </div>
       </div>
-      <div className="h-full border rounded-md dark:shadow-[0_0_10px_white] shadow-[0_0_10px_grey]">
+      <div className="h-full border rounded-md shadow-[0_0_10px_grey]">
         <div className="h-16">
-          <div className="border-b h-full py-2 px-4 shadow-md dark:border-white">
+          <div className="border-b h-full py-2 px-4 shadow-md dark:shadow-[0_2px_10px_grey]">
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-lg font-bold">
