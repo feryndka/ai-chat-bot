@@ -2,7 +2,8 @@
 const nextConfig = {
   images: {
     remotePatterns: [
-      { hostname: 'cdns.klimg.com' }
+      { hostname: 'cdns.klimg.com' },
+      { hostname: 'fakestoreapi.com' }
     ]
   }
 };

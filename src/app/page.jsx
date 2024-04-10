@@ -1,29 +1,21 @@
 import BlogCard from "@/components/BlogCard";
 
-const Home = () => {
+const Home = async () => {
+  const res = await fetch("https://fakestoreapi.com/products");
+  const data = await res.json();
+
   return (
     <div>
-      <BlogCard
-        thumbnail={
-          "https://cdns.klimg.com/newshub.id/news/2017/02/03/118092/663x442-5-tips-traveling-seru-yang-wajib-dilakukan-saat-musim-hujan-170203z.jpg"
-        }
-        title={"Around The World"}
-        desc={"Card Description"}
-      />
-      <BlogCard
-        thumbnail={
-          "https://cdns.klimg.com/newshub.id/news/2017/02/03/118092/663x442-5-tips-traveling-seru-yang-wajib-dilakukan-saat-musim-hujan-170203z.jpg"
-        }
-        title={"Around The World"}
-        desc={"Card Description"}
-      />
-      <BlogCard
-        thumbnail={
-          "https://cdns.klimg.com/newshub.id/news/2017/02/03/118092/663x442-5-tips-traveling-seru-yang-wajib-dilakukan-saat-musim-hujan-170203z.jpg"
-        }
-        title={"Around The World"}
-        desc={"Card Description"}
-      />
+      {data.map((item, index) => {
+        return (
+          <BlogCard
+            key={index}
+            thumbnail={item.image}
+            title={item.title}
+            desc={item.description}
+          />
+        );
+      })}
     </div>
   );
 };

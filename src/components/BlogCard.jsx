@@ -13,15 +13,17 @@ import Link from "next/link";
 const BlogCard = ({ thumbnail, title, desc }) => {
   return (
     <Card className="my-5 hover:shadow-md dark:hover:shadow-[0_0_10px_grey]">
-      <div className="md:flex">
-        <div className="w-80">
-          <Image
-            src={thumbnail}
-            width={500}
-            height={500}
-            alt="thumbnail"
-            className="w-full h-full rounded-t-md"
-          />
+      <div className="md:flex items-center">
+        <div className="md:w-32 md:h-32">
+          <div className="w-32 h-full flex items-center mx-2">
+            <Image
+              src={thumbnail}
+              width={500}
+              height={500}
+              alt="thumbnail"
+              className="w-32 h-32 rounded-t-md"
+            />
+          </div>
         </div>
         <div className="flex justify-between flex-col items-center md:items-start text-center md:text-start">
           <CardHeader>
