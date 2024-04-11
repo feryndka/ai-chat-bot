@@ -13,6 +13,7 @@ const Home = async () => {
             thumbnail={item.image}
             title={item.title}
             desc={item.description}
+            price={item.price}
           />
         );
       })}

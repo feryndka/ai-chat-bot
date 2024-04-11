@@ -19,12 +19,12 @@ export function Menu() {
       break: <BreadcrumbSeparator />,
     },
     {
-      name: "World",
+      name: "Product",
       link: "/world",
       break: <BreadcrumbSeparator />,
     },
     {
-      name: "Travel",
+      name: "Fashion",
       link: "/travel",
     },
   ];

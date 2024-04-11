@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardDescription,
@@ -8,20 +8,19 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-import Link from "next/link";
 
-const BlogCard = ({ thumbnail, title, desc }) => {
+const BlogCard = ({ thumbnail, title, desc, price }) => {
   return (
     <Card className="my-5 hover:shadow-md dark:hover:shadow-[0_0_10px_grey]">
       <div className="md:flex items-center">
-        <div className="md:w-32 md:h-32">
-          <div className="w-32 h-full flex items-center mx-2">
+        <div className="md:w-32 md:h-32 flex items-center justify-center">
+          <div className="w-32 h-full flex items-center m-2">
             <Image
               src={thumbnail}
               width={500}
               height={500}
               alt="thumbnail"
-              className="w-32 h-32 rounded-t-md"
+              className="w-32 h-32"
             />
           </div>
         </div>
@@ -31,9 +30,7 @@ const BlogCard = ({ thumbnail, title, desc }) => {
             <CardDescription>{desc}</CardDescription>
           </CardHeader>
           <CardFooter>
-            <Button>
-              <Link href={"/"}>Read more</Link>
-            </Button>
+            <Badge variant="outline" className="px-4 py-2 text-sm">${price}</Badge>
           </CardFooter>
         </div>
       </div>
