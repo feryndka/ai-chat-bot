@@ -1,60 +1,107 @@
 "use client";
-import BlogCard from "@/components/BlogCard";
-import { useState, useEffect } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Card } from "@/components/ui/card";
+
+import MessageCard from "@/components/MessageCard";
+import { getOllamaResponse } from "@/lib/ollama";
+import { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const Home = () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  // Load chat history dari localStorage saat pertama kali aplikasi dibuka
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch("https://fakestoreapi.com/products");
-      const result = await res.json();
-      setData(result);
-      setLoading(false);
-    };
-    fetchData();
+    const storedMessages = localStorage.getItem("chatHistory");
+    if (storedMessages) {
+      setMessages(JSON.parse(storedMessages));
+    } else {
+      setMessages([
+        {
+          role: "assistant",
+          content: "Hello **Fery**! How can I assist you today?",
+        },
+      ]);
+    }
   }, []);
 
-  if (loading) {
-    return (
-      <>
-        <Loading />
-        <Loading />
-        <Loading />
-        <Loading />
-        <Loading />
-        <Loading />
-      </>
-    );
-  }
+  // Simpan chat history ke localStorage setiap kali messages diperbarui
+  useEffect(() => {
+    if (messages.length > 0) {
+      localStorage.setItem("chatHistory", JSON.stringify(messages));
+    }
+  }, [messages]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+
+    const userInput = input;
+    setInput(""); // Kosongkan input setelah dikirim
+
+    if (userInput === "/clear") {
+      setMessages([]);
+      localStorage.removeItem("chatHistory"); // Hapus chat history dari localStorage
+      return;
+    }
+
+    setLoading(true);
+    const newMessage = { role: "user", content: userInput };
+    setMessages((prevMessages) => [...prevMessages, newMessage]);
+
+    // function AI
+    const response = await getOllamaResponse([newMessage]);
+    const cleanedResponse = response.replace(/<\/?[^>]+(>|$)/g, "").trim();
+
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { role: "assistant", content: cleanedResponse },
+    ]);
+
+    setLoading(false);
+  };
 
   return (
-    <div>
-      {data.map((item, index) => {
-        return <BlogCard key={index} products={item} />;
-      })}
+    <div className="flex flex-col h-[79vh]">
+      <main className="flex-grow overflow-hidden">
+        <div className="w-full mx-auto h-full flex flex-col">
+          <div className="flex-grow overflow-y-auto p-4 my-4 flex flex-col">
+            {messages.map((message, index) => (
+              <MessageCard
+                key={index}
+                role={message.role}
+                message={message.content}
+              >
+                <ReactMarkdown
+                  className="prose dark:prose-invert"
+                  remarkPlugins={[remarkGfm]}
+                ></ReactMarkdown>
+              </MessageCard>
+            ))}
+
+            {/* Animasi Loading */}
+            {loading && <MessageCard role={"asisstant"} message={"...."} />}
+          </div>
+          <form onSubmit={handleSubmit} className="flex items-center p-4">
+            <input
+              placeholder="Type your message here..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              className="flex-grow mr-4 p-4 border rounded-2xl border-gray-300 text-black dark:bg-white"
+            />
+            <button
+              type="submit"
+              disabled={!input.trim() || loading} // Disable tombol saat loading
+              className="p-4 bg-blue-500 rounded-2xl text-white"
+            >
+              ➤
+            </button>
+          </form>
+        </div>
+      </main>
     </div>
   );
 };
 
 export default Home;
-
-function Loading() {
-  return (
-    <Card className="flex flex-col gap-2 my-4 items-center md:items-start md:flex-row">
-      <div className="w-44 h-32 flex items-center justify-center m-2">
-        <Skeleton className="h-full w-full" />
-      </div>
-      <div className="flex flex-col items-center justify-between w-[100%] h-32 md:items-start py-4">
-        <div className="w-full flex flex-col items-center md:items-start">
-          <Skeleton className="h-4 w-[50%] mb-2" />
-          <Skeleton className="h-4 w-[80%]" />
-        </div>
-        <Skeleton className="h-8 w-14"></Skeleton>
-      </div>
-    </Card>
-  );
-}

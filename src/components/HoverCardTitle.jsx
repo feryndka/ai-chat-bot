@@ -13,17 +13,14 @@ export function HoverCardTitle() {
           Fery Andika
         </div>
       </HoverCardTrigger>
-      <HoverCardContent className="w-80 md:ml-20 ml-8">
-        <div className="flex justify-between space-x-4">
+      <HoverCardContent className="w-80 ml-8 md:ml-52">
+        <div className="flex">
           <Avatar>
-            <AvatarImage src="/avatar.jpeg" />
+            <AvatarImage src="/avatar.png" />
             <AvatarFallback>FA</AvatarFallback>
           </Avatar>
-          <div className="space-y-1 cursor-default">
-            <h4 className="text-sm font-semibold">Fery Andika</h4>
-            <p className="text-sm">
-              Frontend Web Developer | Wordpress Developer | Tech Enthusiast
-            </p>
+          <div className="space-y-1 cursor-default ml-4 flex items-center justify-center">
+            <p className="text-sm">- Fullstack Web Developer -</p>
           </div>
         </div>
       </HoverCardContent>
