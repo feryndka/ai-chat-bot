@@ -85,7 +85,7 @@ const Home = () => {
           </div>
           <form onSubmit={handleSubmit} className="flex items-center p-4">
             <input
-              placeholder="Type your message here..."
+              placeholder="Type your message here... [/clear for delete chat]"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               className="flex-grow mr-4 p-4 border rounded-2xl border-gray-300 text-black dark:bg-white"
